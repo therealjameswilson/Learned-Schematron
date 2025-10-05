@@ -30,6 +30,32 @@ this as the textual companion to the in-app quick reference.
 * Italicise publication titles with `<hi rend="italic">` and wrap foreign
   language titles with `<foreign>`.
 
+## Telegrams
+
+* Identify the document with `@subtype="telegram"` on the enclosing
+  `<div type="document">`. Heads follow the pattern “Telegram From … to …”
+  and preserve the exact capitalization that appears in print.
+* Include a full dateline in the `<opener>`, combining the origin city,
+  calendar date, and Zulu time. Encode the clock value with `<time
+  when="YYYY-MM-DDThh:mmZ">` so downstream tools can parse the send time.
+* Capture all filing and handling metadata in the source note. After the
+  archival citation, record the telegram/cable number, distribution tags
+  (for example, “Immediate; Niact Immediate”), and the “Sent …; Received …”
+  timestamps as discrete semicolon clauses.
+* Preserve the telegraphic front matter as part of the transcription. The
+  first paragraph usually begins with a bolded `Subject:` line rendered
+  via `<hi rend="bold">Subject:</hi>`, followed by the subject text in the
+  same paragraph.
+* Keep the cable’s numbered points verbatim. Paragraph numbers (`1.`,
+  `2.`) remain inline at the start of each `<p>`, occasionally paired with
+  bolded cue words such as `<hi rend="bold">Summary</hi>` or `<hi
+  rend="bold">Action Requested</hi>`.
+* Close with the signature block inside `<closer>`/`<signed>`, reproducing
+  the sender’s surname alone when that is how the original cable closed.
+  If the telegram carried an “Cleared by …” line beneath the signature,
+  encode it as an additional `<p>` so the clearance remains part of the
+  document body.
+
 ## Cross-reference notes
 
 * Use `note/@type='crossreference'`.
