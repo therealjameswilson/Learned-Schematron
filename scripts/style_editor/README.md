@@ -4,6 +4,10 @@ A simple FastAPI + Jinja app that loads learned style info from `/reports`,
 lets editors tweak rules (preferred `@when` shape, `note/@type` set, and
 Source note patterns), and exports an updated Schematron file to `/schemas/frus-style-guide-editor.sch`.
 
+The editor now also surfaces a quick-reference derived from the
+model FRUS volume `frus1989-92v31.xml`, summarising how source notes,
+editorial annotations, and cross-reference notes are constructed.
+
 ## Run (inside Codespaces or Dev Container)
 ```bash
 pip install -r tools/requirements.txt
