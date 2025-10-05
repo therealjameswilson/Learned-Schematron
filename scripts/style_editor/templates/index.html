@@ -1,0 +1,63 @@
+{% set l = learned %}
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>FRUS Style Guide Editor</title>
+  <link rel="stylesheet" href="/static/main.css"/>
+</head>
+<body>
+  <header><h1>FRUS Style Guide Editor</h1></header>
+  <main>
+    <form method="post" action="/save">
+      <section>
+        <h2>Date / @when</h2>
+        <label>Preferred shape:
+          <select name="prefer_when">
+            <option value="YYYY">YYYY</option>
+            <option value="YYYY-MM">YYYY-MM</option>
+            <option value="YYYY-MM-DD" selected>YYYY-MM-DD</option>
+          </select>
+        </label>
+      </section>
+
+      <section>
+        <h2>note/@type (allowed list)</h2>
+        <input type="text" name="allowed_note_types" value="source editorial textual crossreference" style="width: 480px"/>
+        <p class="hint">Space-separated list</p>
+      </section>
+
+      <section>
+        <h2>Source Note Patterns</h2>
+        <label>Presidential Library regex<br/>
+          <textarea name="repo_presidential_pattern" rows="3" style="width: 100%">{{ l.source_patterns.get('presidential_library','') }}</textarea>
+        </label>
+        <label>NARA / RG regex<br/>
+          <textarea name="repo_nara_pattern" rows="3" style="width: 100%">{{ l.source_patterns.get('nara_rg','') }}</textarea>
+        </label>
+        <label>Department of State regex<br/>
+          <textarea name="repo_dos_pattern" rows="3" style="width: 100%">{{ l.source_patterns.get('state_dept','') }}</textarea>
+        </label>
+        <label>CIA regex<br/>
+          <textarea name="repo_cia_pattern" rows="3" style="width: 100%">{{ l.source_patterns.get('cia','') }}</textarea>
+        </label>
+
+        <div class="toggles">
+          <label><input type="checkbox" name="require_terminal_period" checked/> Enforce terminal period</label>
+          <label><input type="checkbox" name="prefer_semicolons" checked/> Prefer semicolon separators</label>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button type="submit">Save & Export Schematron</button>
+      </div>
+    </form>
+
+    <hr/>
+    <section>
+      <h2>Learned snapshot (from /reports)</h2>
+      <pre>{{ l | tojson(indent=2) }}</pre>
+    </section>
+  </main>
+</body>
+</html>

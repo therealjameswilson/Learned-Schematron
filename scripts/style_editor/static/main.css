@@ -1,0 +1,12 @@
+body { font-family: system-ui, Arial, sans-serif; margin: 0; padding: 0; }
+header { background: #0b4b66; color: white; padding: 16px 24px; }
+main { padding: 24px; max-width: 960px; margin: auto; }
+section { margin-bottom: 24px; }
+h1, h2 { margin: 0 0 12px 0; }
+label { display: block; margin-bottom: 12px; }
+.hint { color: #666; font-size: 12px; }
+textarea { font-family: ui-monospace, Menlo, monospace; }
+.actions { margin-top: 16px; }
+button { background: #0b4b66; color: white; border: 0; border-radius: 8px; padding: 10px 16px; cursor: pointer; }
+button:hover { background: #09506e; }
+.toggles label { display: inline-block; margin-right: 16px; }
