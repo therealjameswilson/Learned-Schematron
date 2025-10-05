@@ -58,6 +58,30 @@
       <h2>Learned snapshot (from /reports)</h2>
       <pre>{{ l | tojson(indent=2) }}</pre>
     </section>
+
+    <section class="annotation-style">
+      <h2>FRUS annotation quick reference</h2>
+      <p class="hint">
+        Distilled from <code>frus1989-92v31.xml</code>.  Use these cues when assessing
+        note markup for consistency with the model FRUS volume.
+      </p>
+      <div class="guideline-grid">
+        {% for guideline in annotation_guidelines %}
+        <article class="guideline">
+          <h3>{{ guideline.heading }}</h3>
+          <p>{{ guideline.description }}</p>
+          <h4>Recurring cues</h4>
+          <ul>
+            {% for cue in guideline.cues %}
+            <li>{{ cue }}</li>
+            {% endfor %}
+          </ul>
+          <h4>Sample snippet</h4>
+          <pre><code>{{ guideline.sample | e }}</code></pre>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
   </main>
 </body>
 </html>

@@ -5,6 +5,7 @@ from pathlib import Path
 import json
 from .rules_model import StyleConfig, load_learned_defaults
 from .generator import generate_schematron
+from .annotation_guidelines import guidelines_as_dict
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 REPORTS_DIR = REPO_ROOT / "reports"
@@ -16,7 +17,14 @@ app.mount("/static", StaticFiles(directory=(Path(__file__).parent / "static")), 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     learned = load_learned_defaults(REPORTS_DIR)
-    return request.app.state.templates.TemplateResponse("index.html", {"request": request, "learned": learned.dict()})
+    return request.app.state.templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "learned": learned.dict(),
+            "annotation_guidelines": guidelines_as_dict(),
+        },
+    )
 
 @app.post("/save", response_class=RedirectResponse)
 async def save(
