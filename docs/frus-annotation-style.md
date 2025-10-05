@@ -9,6 +9,24 @@ this as the textual companion to the in-app quick reference.
   `<hi rend="bold">`).
 * Follow the pattern: repository → record group or collection → document
   format → classification / dissemination.
+* Expand repository names to their published form. For National Archives
+  holdings spell out "National Archives" and include the record group (for
+  example, `National Archives, RG 59, Central Foreign Policy Files`). For
+  presidential libraries, cite the library first, then the office-level
+  collection, box, and folder (`Jimmy Carter Library, National Security
+  Affairs Staff, Country File, Box 12, Nigeria`). University archives and
+  manuscript repositories follow the same hierarchy: institution → collection
+  → box/folder identifiers.
+* When referencing microfilm or digitised sets, identify both the physical
+  archive and the reproduction series (`Eisenhower Library, Whitman File,
+  Dulles-Herter Series; microfilm`). Note commercial databases or published
+  compilations after the archive reference (`Reagan Library, Executive
+  Secretariat, NSC: Head of State File; reproduced in Digital National
+  Security Archive`).
+* For born-digital materials cite the hosting archive and, if applicable, the
+  web collection title and accession path (`Clinton Presidential Library,
+  Electronic Records, National Security Council Email; FOIA collection
+  2006-0995-F`).
 * Keep content in a single paragraph and separate factual clauses with
   semicolons. Examples of final clauses:
   * `Secret; Nodis.`
