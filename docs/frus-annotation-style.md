@@ -1,5 +1,9 @@
 # FRUS Annotation Style (Model Volumes frus1989-92v31 and frus1981-88v04)
 
+For a compiler-focused checklist that applies the same conventions to Volume XXIV of the
+1981–1988 sub-series, see
+[`frus1981-88v24-annotation-style.md`](./frus1981-88v24-annotation-style.md).
+
 Summary of annotation conventions observed in the two reference volumes
 reviewed so far. Use this as the textual companion to the in-app quick
 reference.

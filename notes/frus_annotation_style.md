@@ -1,11 +1,12 @@
 # FRUS Annotation Style Notes
 
-## Access to Reference Volume
+## Access to Reference Volumes
 
-Attempts to download the model volume `frus1981-88v01.xml` from the HistoryAtState repository were blocked by the sandbox's outbound network policy (HTTP 403). This prevented a direct inspection of that specific volume during this session. The curl command below shows the failure state.
+Attempts to download the model volumes from the HistoryAtState repository were blocked by the sandbox's outbound network policy (HTTP 403). This prevented a direct inspection of the series files during this session. The curl commands below show the failure state.
 
 ```
 curl -L https://raw.githubusercontent.com/HistoryAtState/frus/master/volumes/frus1981-88v01.xml -o /tmp/frus1981-88v01.xml
+curl -L https://raw.githubusercontent.com/HistoryAtState/frus/main/volumes/frus1981-88v24.xml -o /tmp/frus1981-88v24.xml
 ```
 
 ## Inferences from the Existing Learning Script
@@ -20,6 +21,6 @@ These behaviors collectively outline the annotation style expectations that the 
 
 ## Next Steps When the Volume Is Available
 
-1. Place `frus1981-88v01.xml` into a `tei/` directory at the project root.
+1. Place `frus1981-88v01.xml` and/or `frus1981-88v24.xml` into a `tei/` directory at the project root.
 2. Run the learning script as shown above to collect observed annotation patterns and regenerate `schemas/frus-learned.sch`.
 3. Review `reports/learned-summary.json` for concrete counts of each annotation practice, then update this document with explicit examples drawn from the volume.
