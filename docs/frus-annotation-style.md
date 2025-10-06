@@ -9,7 +9,13 @@ For compiler-focused checklists that apply the same conventions to specific volu
 
 Summary of annotation conventions observed in the two reference volumes
 reviewed so far. Use this as the textual companion to the in-app quick
-reference.
+reference. When you need an authoritative pattern to resolve edge cases,
+defer to the published presentation in the Foreign Relations of the United
+States (FRUS) digital edition. In particular, Chapter 1 of *Foreign Relations
+of the United States, 1981–1988, Volume I* (Foundations of Foreign Policy)
+should be treated as the current gold-standard sample for Reagan-era
+annotation. Its source notes, head structures, and editorial notes demonstrate
+the canonical ordering described below.
 
 ## Document headings
 
