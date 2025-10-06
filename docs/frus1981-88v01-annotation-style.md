@@ -125,3 +125,39 @@ released TEI for `frus1981-88v01.xml` when local access is available.
 
 Keeping these conventions front of mind will help compilers encode Volume I in a way that matches
 both the published book and the Office of the Historian's digital presentation.
+
+## Appendix: Chapter 7 (Strategic Defense and Public Diplomacy) spot checks
+
+Chapter 7 of the printed volume gathers the Reagan administration's early-1983 push on defense
+modernisation, the Strategic Defense Initiative, and the corresponding public diplomacy. Reviewing
+the finished online presentation yields several concrete annotation cues that recur across the
+chapter's mix of directives, memoranda, and presidential speeches:
+
+* **Document wrappers keep directive identifiers inside the `<head>`.** `National Security Decision
+  Directive 75` and `NSDD 108` print the acronym in small caps followed immediately by the number.
+  Retain that typography and leave the subject line in roman text following an em dash, matching the
+  book's usage (`<head><hi rend="smallcaps">NSDD 75</hi>—U.S. Relations With the U.S.S.R.</head>`).
+* **Distribution lists stay paragraph-based even when long.** NSDDs in this chapter address cabinet
+  officers, the Joint Chiefs, and the Director of Central Intelligence in a comma-delimited line.
+  Encode the entire distribution as a single paragraph within the `<opener>` rather than converting
+  to `<list>`/`<item>` constructs unless the source prints explicit bullets.
+* **Datelines for televised speeches include clock times.** Reagan's March 23, 1983 address announcing
+  the Strategic Defense Initiative prints both the White House location and the broadcast time (`8
+  p.m.`). Capture this with `<dateline><date when="1983-03-23"/> <time
+  when="1983-03-23T20:00">8 p.m.</time></dateline>`, mirroring the Web edition's markup.
+* **Stage directions and applause cues remain inline.** The "Evil Empire" speech to the National
+  Association of Evangelicals and the SDI address both retain `[Applause]` in square brackets. Treat
+  these as literal text nodes in the paragraph flow; do not wrap them in editorial `<note>` elements.
+* **Source notes mix archival and published citations.** Speeches cite the White House Office of
+  Speechwriting or the Public Diplomacy cluster before referencing the *Public Papers of the
+  Presidents: Ronald Reagan, 1983*. Directives cite the NSC Institutional Files with file and tab
+  numbers. Maintain the semicolon-separated order and italicise published titles.
+* **Editorial notes cross-reference background planning memoranda.** The SDI coverage uses
+  `<note type="editorial">` paragraphs to tie the televised speech back to National Security Council
+  meeting minutes and technology assessments earlier in the chapter. Reproduce those cross-references
+  with `<ref target="#doc-###">` pointers and keep the summary sentence before listing linked
+  documents.
+
+These spot checks illustrate how the general guidance above materialises in a concrete chapter. Use
+them as exemplars when encoding adjacent sections that feature the same mix of directive paperwork
+and public communications.
