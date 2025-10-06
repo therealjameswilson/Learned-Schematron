@@ -3,7 +3,10 @@
 This memo captures the annotation patterns that compilers should follow when working with the
 1981–1988 sub-series, Volume I (*Foundations of Foreign Policy*). Use it alongside the general
 [FRUS Annotation Style](./frus-annotation-style.md) checklist and confirm all guidance against the
-released TEI for `frus1981-88v01.xml` when local access is available.
+released TEI for `frus1981-88v01.xml` when local access is available. Treat the published
+presentation of Chapter 1 (documents 1–16) as the baseline reference. Its mix of presidential
+statements, National Security Decision Directives, and NSC memoranda illustrates the full range of
+structural and apparatus conventions you should mirror in new encodings.
 
 > **Scope.** Volume I foregrounds presidential decision-making frameworks, strategy papers, and
 > major public statements that articulate the Reagan administration's foreign policy foundations.
@@ -23,10 +26,13 @@ released TEI for `frus1981-88v01.xml` when local access is available.
 * Presidential statements and speeches often use the pattern `Statement by President Reagan` or
   `Address by President Reagan to the Nation`. Retain the prepositions ("by," "before") and the
   audience description even when lengthy. Do not collapse honorifics (for example, keep
-  `to the National Association of Evangelicals in Orlando`).
+  `to the National Association of Evangelicals in Orlando`). Compare with Document 11 in Chapter 1,
+  where the full venue description remains inside the `<head>`.
 * Formal directives (National Security Decision Directives, National Security Study Directives)
   print their directive number in the heading. Keep the numeric component inside the `<head>` and
   encode the directive acronym in small caps when the printed source does so (`<hi rend="smallcaps">NSDD 32</hi>`).
+  See Document 4 for a concrete example of how the book balances directive numbering with sender
+  attribution.
 
 ## 2. Openers, datelines, and distribution blocks
 
@@ -36,7 +42,8 @@ released TEI for `frus1981-88v01.xml` when local access is available.
   distribution as bullet points.
 * Many presidential remarks supply only the place, date, and time of delivery. Encode these in the
   `<opener>` using `<dateline>` and `<time when="YYYY-MM-DDThh:mm">`. If the published source omits
-  a time, omit the `@when` attribute rather than guessing.
+  a time, omit the `@when` attribute rather than guessing. Document 9 demonstrates the preferred
+  placement of the delivery time immediately after the venue.
 * When the document introduces a subtitle (for example, a speech theme or venue), keep it in the
   first paragraph of the body instead of moving it into the header.
 
@@ -50,7 +57,8 @@ released TEI for `frus1981-88v01.xml` when local access is available.
   brackets. Treat them as inline text rather than editorial notes.
 * Strategy papers frequently include embedded tables summarising policy options. Encode these with
   `<table>` and `<row>`/`<cell>` if the layout can be recovered; otherwise, retain the prose form
-  and indicate column separators with em dashes as printed.
+  and indicate column separators with em dashes as printed. Document 6 shows how an options matrix
+  is preserved as prose when the print edition collapses the layout.
 * Directives conclude with signature blocks (`Ronald Reagan`) and, occasionally, authentication
   attestations. Wrap the signature in `<closer><signed>Ronald Reagan</signed></closer>` and keep the
   attestations as additional paragraphs following the signature.
