@@ -34,6 +34,24 @@ structural and apparatus conventions you should mirror in new encodings.
   See Document 4 for a concrete example of how the book balances directive numbering with sender
   attribution.
 
+### Worked patterns from Chapter 8 exemplars
+
+The finished presentations for [Chapter 8 on history.state.gov](https://history.state.gov/historicaldocuments/frus1981-88v01/ch8)
+reinforce several layout details that are easy to overlook when encoding the TEI from scratch:
+
+* **Heading punctuation mirrors print exactly.** The site keeps commas around parenthetical
+  identifiers—`Memorandum of Conversation, Washington, September 24, 1981`—and does not collapse
+  double descriptors (for example, "Meeting" followed by a speaker list). Preserve the comma and
+  spacing rhythm to avoid introducing normalization errors when the TEI is rendered online.
+* **Multi-line openers render as separate paragraphs.** Documents that begin with stacked
+  `To:/From:/Subject:` lines show each label on its own line with bold styling. The HTML confirms that
+  the TEI should keep each label in its own `<p>` with `<hi rend="bold">` applied to the label text,
+  followed by a colon and the recipient string.
+* **Chapter navigation assumes incremental document IDs.** The finished pages link adjacent
+  documents using the `doc-###` identifiers embedded in the TEI. When transcribing, double-check that
+  the running numbers in `<div xml:id>` attributes match the printed sequence so the static site can
+  wire up `Previous`/`Next` buttons correctly.
+
 ## 2. Openers, datelines, and distribution blocks
 
 * Memoranda retain explicit `To:` and `From:` lines, bolded with `<hi rend="bold">`. For directives,
@@ -80,6 +98,20 @@ structural and apparatus conventions you should mirror in new encodings.
   (`National Security Council, Institutional Files, NSDD File, No. 32`).
 * Classify the final clause with the handling marking exactly as printed (`Top Secret; Sensitive`).
   Directives occasionally state `Unclassified`. Leave the clause even when seemingly redundant.
+
+### Cross-checks from the Chapter 8 web rendering
+
+* **Source lead-ins always include a trailing space after the colon.** The rendered HTML shows
+  `Source:` followed by a non-breaking space before the repository string. Encode the colon and a
+  single space in the TEI to keep the published spacing consistent.
+* **Footnotes reuse the source-note typography.** The footnote list on the site prints the numeric
+  marker, then bolds the `Source:` label when a footnote reproduces archival citation material. This
+  indicates that compilers should keep the bold span inside the footnote paragraph rather than moving
+  it to a nested `<hi>` wrapper or a definition list.
+* **Attachments inherit parent numbering.** When a Chapter 8 document publishes an attachment, the
+  page labels it "Attachment" followed by the same document number (for example, "Attachment to
+  Document 89"). Maintain that convention in the TEI by nesting the attachment inside the parent
+  `<div type="document">` and echoing the numbering in the attachment `<head>`.
 
 ## 5. Editorial notes, cross-references, and historiographical context
 
