@@ -1,8 +1,14 @@
-# FRUS Annotation Style (Model Volumes frus1989-92v31 and frus1981-88v04)
+# FRUS Annotation Style (Model Volumes frus1989-92v31, frus1981-88v04, and frus1981-88v13)
 
-Summary of annotation conventions observed in the two reference volumes
+# Summary of reference guides
+
+Summary of annotation conventions observed in the reference volumes
 reviewed so far. Use this as the textual companion to the in-app quick
 reference.
+
+* **Volume XIII (1981–1988)**: See `docs/frus-annotation-style-frus1981-88v13.md`
+  for a workflow-oriented checklist tailored to the Caribbean Basin
+  volume, including repository trends and attachment handling notes.
 
 ## Document headings
 
