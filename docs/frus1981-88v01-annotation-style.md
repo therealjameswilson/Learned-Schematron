@@ -133,3 +133,43 @@ structural and apparatus conventions you should mirror in new encodings.
 
 Keeping these conventions front of mind will help compilers encode Volume I in a way that matches
 both the published book and the Office of the Historian's digital presentation.
+
+## 9. Chapter 6 (Global Strategy and Defense Posture) — finished-volume observations
+
+* **Document mix.** Chapter 6 leans heavily on National Security Decision Directives (NSDDs),
+  National Security Study Directives (NSSDs), and high-level strategy papers that set global
+  priorities. Expect long-form memoranda, presidential study directives, and speech drafts rather
+  than short correspondence. Mirror the printed genre labels exactly (`National Security Decision
+  Directive Number 32`) and retain any subtitle that states the policy theme (`United States
+  National Security Strategy`).
+* **Directive typography.** The printed NSDD facsimiles render their directive acronym in full
+  small caps across headings and salutation lines. Encode these stretches with
+  `<hi rend="smallcaps">NSDD</hi>` (or `<hi rend="smallcaps">NSSD</hi>`) and keep the spelled-out
+  phrase (“National Security Decision Directive”) in title case as printed rather than normalising
+  to uppercase. Directive numbers remain part of the `<head>` text.
+* **Distribution blocks and signature attestations.** NSDDs and NSSDs in this chapter carry dense
+  addressee lists plus certification language such as “Copy furnished to:”. Preserve the layout as
+  sequential paragraphs inside the `<opener>` or immediately after it—do not convert to unordered
+  lists. Close each directive with `<closer>`/`<signed>` for the President’s signature and capture
+  authentication statements (`For the President:`) as following paragraphs to reflect the archival
+  copy.
+* **Embedded annexes.** Strategic reviews frequently attach implementation matrices, contingency
+  force tables, or regional annexes. Encode each printed attachment as `<div type="attachment">`
+  with its own `<head>` and source note. When the book prints only excerpts (“Annex A (excerpt):”)
+  add an editorial note explaining the excerpted nature and point to the archival folder holding the
+  complete attachment.
+* **Source note nuances.** Source lines for NSDDs routinely cite the National Security Council’s
+  Institutional Files with both the NSDD file number and the directive title. Keep the order `Source:
+  Reagan Library, National Security Council, Institutional Files, NSDD File; NSDD 75; Top Secret;`
+  before transmittal language such as `Sent for information to ...`. When a directive references a
+  subsequent declassification or release authority, reproduce the parenthetical exactly rather than
+  summarising it.
+* **Editorial background.** Finished annotations in this chapter contextualise directives by tying
+  them to earlier policy debates (for example, National Security Council meetings or prior study
+  directives). Follow the pattern `The directive evolved from NSSM 11-82 ...` and use
+  `<ref target="#doc-###">` to link to those prerequisite documents. When summarising public
+  roll-outs—speeches or fact sheets that explain an NSDD—place the publication citation in the note
+  using `<hi rend="italic">Public Papers of the Presidents</hi>` or the relevant fact sheet title.
+* **Footnotes.** Citations often pair archival references with published doctrine (`Department of
+  Defense, <hi rend="italic">Annual Report</hi>, Fiscal Year 1984`). Separate each source with
+  semicolons and retain quoted phrases from the document text within `<quote>` to preserve emphasis.
