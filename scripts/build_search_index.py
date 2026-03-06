@@ -54,11 +54,18 @@ def extract_documents(xml_path: Path) -> list[dict[str, str]]:
 
 def main() -> int:
     documents: list[dict[str, str]] = []
+    latest_source_mtime: float | None = None
 
     if not VOLUMES_DIR.exists():
         print(f"Warning: source directory not found: {VOLUMES_DIR}", file=sys.stderr)
     else:
         for xml_path in sorted(VOLUMES_DIR.rglob("*.xml")):
+            file_mtime = xml_path.stat().st_mtime
+            latest_source_mtime = (
+                file_mtime
+                if latest_source_mtime is None
+                else max(latest_source_mtime, file_mtime)
+            )
             try:
                 documents.extend(extract_documents(xml_path))
             except ET.ParseError as exc:
@@ -66,8 +73,14 @@ def main() -> int:
             except Exception as exc:  # pragma: no cover - defensive logging for build resilience
                 print(f"Warning: failed to parse {xml_path}: {exc}", file=sys.stderr)
 
+    generated_at = (
+        datetime.fromtimestamp(latest_source_mtime, timezone.utc).isoformat()
+        if latest_source_mtime is not None
+        else None
+    )
+
     payload = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": generated_at,
         "total_documents": len(documents),
         "documents": documents,
     }
