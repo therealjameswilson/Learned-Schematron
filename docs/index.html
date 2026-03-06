@@ -7,15 +7,29 @@
     <style>
       body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 900px; }
       .row { margin-bottom: 1rem; }
+      .actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+      button { padding: 0.45rem 0.75rem; cursor: pointer; }
       input[type="search"] { width: 100%; padding: 0.6rem; }
       ul { padding-left: 1.2rem; }
       li { margin-bottom: 0.75rem; }
       .muted { color: #555; font-size: 0.95rem; }
+      .functions { background: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 0.8rem 1rem; }
+      .functions ul { margin: 0.5rem 0 0; }
       code { background: #f4f4f4; padding: 0.1rem 0.25rem; border-radius: 3px; }
     </style>
   </head>
   <body>
     <h1>FRUS Corpus Search</h1>
+
+    <section class="row functions">
+      <strong>Available functions</strong>
+      <ul>
+        <li>Auto-loads <code>search-index.json</code> from this site at startup.</li>
+        <li>Supports fallback XML upload parsing when corpus data is unavailable.</li>
+        <li>Searches titles and full text with a shareable <code>?q=</code> URL parameter.</li>
+        <li>Includes quick actions to clear search, copy a share link, and reset to repository corpus.</li>
+      </ul>
+    </section>
 
     <div class="row muted" id="corpusStatus">Loading repository corpus…</div>
     <div class="row muted" id="loadStatus">Documents loaded: 0</div>
@@ -30,6 +44,12 @@
       <input id="searchInput" type="search" placeholder="Type to search titles and full text" />
     </div>
 
+    <div class="row actions">
+      <button id="clearSearch" type="button">Clear search</button>
+      <button id="copyLink" type="button">Copy share link</button>
+      <button id="reloadCorpus" type="button">Reset to repository corpus</button>
+    </div>
+
     <div class="row muted" id="resultCount"></div>
     <ul id="results"></ul>
 
@@ -40,6 +60,9 @@
       const searchInput = document.getElementById("searchInput");
       const resultsEl = document.getElementById("results");
       const resultCount = document.getElementById("resultCount");
+      const clearSearchBtn = document.getElementById("clearSearch");
+      const copyLinkBtn = document.getElementById("copyLink");
+      const reloadCorpusBtn = document.getElementById("reloadCorpus");
 
       function setDocuments(newDocs) {
         docs.length = 0;
@@ -102,6 +125,26 @@
         return extracted;
       }
 
+      function updateQueryParam(value) {
+        const url = new URL(window.location.href);
+        if (value) {
+          url.searchParams.set("q", value);
+        } else {
+          url.searchParams.delete("q");
+        }
+        window.history.replaceState({}, "", url);
+      }
+
+      async function copyShareLink() {
+        const url = new URL(window.location.href);
+        try {
+          await navigator.clipboard.writeText(url.toString());
+          corpusStatus.textContent = "Share link copied to clipboard";
+        } catch {
+          corpusStatus.textContent = `Copy failed. Use this link: ${url}`;
+        }
+      }
+
       async function loadRepositoryCorpus() {
         try {
           const response = await fetch("./search-index.json", { cache: "no-store" });
@@ -141,14 +184,22 @@
 
       searchInput.addEventListener("input", (event) => {
         const value = event.target.value;
-        const url = new URL(window.location.href);
-        if (value) {
-          url.searchParams.set("q", value);
-        } else {
-          url.searchParams.delete("q");
-        }
-        window.history.replaceState({}, "", url);
+        updateQueryParam(value);
         search(value);
+      });
+
+      clearSearchBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        updateQueryParam("");
+        search("");
+      });
+
+      copyLinkBtn.addEventListener("click", () => {
+        copyShareLink();
+      });
+
+      reloadCorpusBtn.addEventListener("click", () => {
+        loadRepositoryCorpus();
       });
 
       const initialQ = new URLSearchParams(window.location.search).get("q") || "";
