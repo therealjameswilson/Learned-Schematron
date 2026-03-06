@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - 'data/frus/volumes/**'
-      - 'app.py'
       - 'scripts/**'
       - 'docs/**'
 
