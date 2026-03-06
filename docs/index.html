@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FRUS Search</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 900px; }
+      .row { margin-bottom: 1rem; }
+      input[type="search"] { width: 100%; padding: 0.6rem; }
+      ul { padding-left: 1.2rem; }
+      li { margin-bottom: 0.75rem; }
+      .muted { color: #555; font-size: 0.95rem; }
+      code { background: #f4f4f4; padding: 0.1rem 0.25rem; border-radius: 3px; }
+    </style>
+  </head>
+  <body>
+    <h1>FRUS Corpus Search</h1>
+
+    <div class="row muted" id="corpusStatus">Loading repository corpus…</div>
+    <div class="row muted" id="loadStatus">Documents loaded: 0</div>
+
+    <div class="row">
+      <label for="xmlUpload"><strong>Fallback upload (optional):</strong></label>
+      <input id="xmlUpload" type="file" accept=".xml,text/xml,application/xml" />
+    </div>
+
+    <div class="row">
+      <label for="searchInput"><strong>Search</strong></label>
+      <input id="searchInput" type="search" placeholder="Type to search titles and full text" />
+    </div>
+
+    <div class="row muted" id="resultCount"></div>
+    <ul id="results"></ul>
+
+    <script>
+      const docs = [];
+      const corpusStatus = document.getElementById("corpusStatus");
+      const loadStatus = document.getElementById("loadStatus");
+      const searchInput = document.getElementById("searchInput");
+      const resultsEl = document.getElementById("results");
+      const resultCount = document.getElementById("resultCount");
+
+      function setDocuments(newDocs) {
+        docs.length = 0;
+        docs.push(...newDocs);
+        loadStatus.textContent = `Documents loaded: ${docs.length}`;
+      }
+
+      function snippet(text, maxLen = 240) {
+        if (text.length <= maxLen) return text;
+        return `${text.slice(0, maxLen)}…`;
+      }
+
+      function search(query) {
+        const q = query.trim().toLowerCase();
+        if (!q) {
+          resultsEl.innerHTML = "";
+          resultCount.textContent = "";
+          return;
+        }
+
+        const matches = docs.filter((doc) => {
+          const haystack = `${doc.title} ${doc.text}`.toLowerCase();
+          return haystack.includes(q);
+        });
+
+        resultCount.textContent = `${matches.length} result(s)`;
+        resultsEl.innerHTML = matches
+          .slice(0, 100)
+          .map(
+            (doc) =>
+              `<li><strong>${escapeHtml(doc.title || "(Untitled document)")}</strong><br><span class="muted"><code>${escapeHtml(doc.source || "unknown")}</code></span><br>${escapeHtml(snippet(doc.text || ""))}</li>`
+          )
+          .join("");
+      }
+
+      function escapeHtml(text) {
+        return text
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;");
+      }
+
+      function parseUploadedXml(xmlText, sourceName) {
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(xmlText, "application/xml");
+
+        if (xml.querySelector("parsererror")) {
+          throw new Error("Uploaded XML is malformed.");
+        }
+
+        const extracted = Array.from(xml.querySelectorAll('div[type="document"]')).map((div) => {
+          const head = div.querySelector("head");
+          return {
+            title: (head?.textContent || "").trim().replace(/\s+/g, " "),
+            text: (div.textContent || "").trim().replace(/\s+/g, " "),
+            source: sourceName,
+          };
+        });
+
+        return extracted;
+      }
+
+      async function loadRepositoryCorpus() {
+        try {
+          const response = await fetch("./search-index.json", { cache: "no-store" });
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+
+          const payload = await response.json();
+          if (!Array.isArray(payload.documents)) {
+            throw new Error("Invalid search-index.json format.");
+          }
+
+          setDocuments(payload.documents);
+          corpusStatus.textContent = "Loaded repository corpus";
+          const currentQuery = searchInput.value;
+          if (currentQuery) search(currentQuery);
+        } catch (error) {
+          corpusStatus.textContent = "Repository corpus unavailable. Upload an XML file to search.";
+          console.warn("Failed to load repository corpus", error);
+        }
+      }
+
+      document.getElementById("xmlUpload").addEventListener("change", async (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        try {
+          const xmlText = await file.text();
+          const parsed = parseUploadedXml(xmlText, file.name);
+          setDocuments(parsed);
+          corpusStatus.textContent = "Using uploaded file";
+          search(searchInput.value);
+        } catch (error) {
+          corpusStatus.textContent = `Upload failed: ${error.message}`;
+        }
+      });
+
+      searchInput.addEventListener("input", (event) => {
+        const value = event.target.value;
+        const url = new URL(window.location.href);
+        if (value) {
+          url.searchParams.set("q", value);
+        } else {
+          url.searchParams.delete("q");
+        }
+        window.history.replaceState({}, "", url);
+        search(value);
+      });
+
+      const initialQ = new URLSearchParams(window.location.search).get("q") || "";
+      searchInput.value = initialQ;
+      loadRepositoryCorpus().then(() => {
+        if (initialQ) search(initialQ);
+      });
+    </script>
+  </body>
+</html>
